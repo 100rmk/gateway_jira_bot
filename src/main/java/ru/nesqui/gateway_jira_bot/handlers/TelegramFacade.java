@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public class TelegramFacade {
     private MessageStateContext messageStateContext;
     private UserDataCache userDataCache;
-    private Set<Integer> verifiedUsersSetList = Stream.of(747641113, 86539097)
+    private Set<Integer> verifiedUsersSetList = Stream.of(747641113, 86539097, 744938030)
             .collect(ImmutableCollectors.toImmutableSet());
 
     TelegramFacade(MessageStateContext messageStateContext, UserDataCache userDataCache) {
