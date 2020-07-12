@@ -36,7 +36,7 @@ public class YandexService {
     public void updateIAMToken() {
         ResponseEntity<IAMTokenEntity> response =  this.restTemplate.postForEntity(yandexUrl, valueMap, IAMTokenEntity.class);
         this.receivedToken = Objects.requireNonNull(response.getBody()).getIamToken();
-        log.info("Token has updated {}", this.receivedToken);
+        log.info("Token has updated");
     }
 
     public String getIAMToken() {
@@ -49,6 +49,7 @@ public class YandexService {
     @Scheduled(fixedRate = 15 * 60 * 1000)
     public void pingYandex() {
         this.restTemplate.getForObject("https://ya.ru/", String.class);
+        log.info("Ping to yandex");
     }
 
 }
