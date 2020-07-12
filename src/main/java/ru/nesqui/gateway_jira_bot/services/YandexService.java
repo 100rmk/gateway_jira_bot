@@ -45,4 +45,10 @@ public class YandexService {
         }
         return "Bearer " + receivedToken;
     }
+
+    @Scheduled(fixedRate = 15 * 60 * 1000)
+    public void pingYandex() {
+        this.restTemplate.getForObject("https://ya.ru/", String.class);
+    }
+
 }
