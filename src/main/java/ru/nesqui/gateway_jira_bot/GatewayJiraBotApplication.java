@@ -8,11 +8,8 @@ import org.telegram.telegrambots.ApiContextInitializer;
 @SpringBootApplication
 @EnableScheduling
 public class GatewayJiraBotApplication {
-
     public static void main(String[] args) {
-
         ApiContextInitializer.init();
         SpringApplication.run(GatewayJiraBotApplication.class, args);
     }
-
 }
