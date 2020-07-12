@@ -1,6 +1,8 @@
 package ru.nesqui.gateway_jira_bot.handlers;
 
+import com.google.common.collect.ImmutableCollection;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.internal.util.collection.ImmutableCollectors;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,14 +12,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.nesqui.gateway_jira_bot.cache.UserDataCache;
 
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @Slf4j
 public class TelegramFacade {
     private MessageStateContext messageStateContext;
     private UserDataCache userDataCache;
-    private Set<Integer> verifiedUsersSetList = Set.of(747641113, 86539097);
-
+    private Set<Integer> verifiedUsersSetList = Stream.of(747641113, 86539097)
+            .collect(ImmutableCollectors.toImmutableSet());
 
     TelegramFacade(MessageStateContext messageStateContext, UserDataCache userDataCache) {
         this.userDataCache = userDataCache;
