@@ -38,8 +38,6 @@ public class MessageStateContext {
             case UPDATE_TASK:
             case SHOW_TASK_MENU:
             case AUTH:
-//            case CREATE_TEXT_TASK:
-//            case CREATE_VOICE_TASK:
                 return true;
             default:
                 return false;

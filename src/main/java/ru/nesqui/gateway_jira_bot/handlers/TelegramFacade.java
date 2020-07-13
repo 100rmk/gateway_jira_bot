@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 public class TelegramFacade {
     private MessageStateContext messageStateContext;
     private UserDataCache userDataCache;
+    private BotState botState;
     private Set<Integer> verifiedUsersSetList = Stream.of(747641113, 86539097, 744938030)
             .collect(ImmutableCollectors.toImmutableSet());
 
@@ -38,7 +39,6 @@ public class TelegramFacade {
                     update.getCallbackQuery().getFrom().getUserName(),
                     update.getCallbackQuery().getData());
             replyMessage = processCallbackQuery(callbackQuery);
-
         }
 
         Message message = update.getMessage();
@@ -54,14 +54,12 @@ public class TelegramFacade {
                     message.getVoice().getMimeType());
             replyMessage = handleVoiceMessage(message);
         }
-
         return replyMessage;
     }
 
     private SendMessage handleInputMessage(Message message) {
         String inputMessage = message.getText();
         int userId = message.getFrom().getId();
-        BotState botState;
         SendMessage replyMessage;
 
         switch (inputMessage) {
@@ -69,7 +67,7 @@ public class TelegramFacade {
                 botState = verifiedUsersSetList.contains(userId) ? BotState.AUTH : BotState.EMPTY;
                 break;
             case "/menu":
-                botState = BotState.SHOW_TASK_MENU;
+                botState = verifiedUsersSetList.contains(userId) ? BotState.SHOW_TASK_MENU : BotState.EMPTY;
                 break;
             default:
                 botState = userDataCache.getUserCurrentBotState(userId);
@@ -87,7 +85,6 @@ public class TelegramFacade {
         int userId = buttonQuery.getFrom().getId();
         long chatId = buttonQuery.getMessage().getChatId();
         String buttonAnswerText = buttonQuery.getData();
-        BotState botState;
         SendMessage replyMessage = null;
 
 
@@ -125,10 +122,11 @@ public class TelegramFacade {
     }
 
     private SendMessage handleVoiceMessage (Message message) {
-        int userId = message.getFrom().getId();
-
-        userDataCache.setUserCurrentBotState(userId, BotState.CREATE_TASK);
-
-        return messageStateContext.processInputMessage(BotState.CREATE_TASK, message);
+        if (botState.equals(BotState.CREATE_TASK)) {
+            return messageStateContext.processInputMessage(BotState.CREATE_TASK, message);
+        }
+        return new SendMessage()
+                .setChatId(message.getChatId())
+                .setText("Авторизируйтесь или выберите в меню \"Создать задачу\"");
     }
 }

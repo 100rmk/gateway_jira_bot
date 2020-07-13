@@ -12,7 +12,8 @@ public class EmptyHandler implements InputMessageHandler {
     public SendMessage handle(Message message) {
         return new SendMessage()
                 .setChatId(message.getChatId())
-                .setText("Вы не авторизованны, обратитесь к администратору");
+                .setText("Вы не авторизованны, либо сессия была прекращена. " +
+                        "Для возобновления сессии выберите комманду /start");
     }
 
     @Override

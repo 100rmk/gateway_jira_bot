@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import ru.nesqui.gateway_jira_bot.entities.IAMTokenEntity;
+import ru.nesqui.gateway_jira_bot.entities.VoiceMessageEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,11 +48,4 @@ public class YandexService {
         }
         return "Bearer " + receivedToken;
     }
-
-    @Scheduled(fixedRate = 15 * 60 * 1000)
-    public void pingYandex() {
-        this.restTemplate.getForObject("https://ya.ru/", String.class);
-        log.info("Ping to yandex");
-    }
-
 }
