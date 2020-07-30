@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.nesqui.gateway_jira_bot.entities.VoiceMessageEntity;
@@ -52,6 +49,10 @@ public class VoiceConvertService {
 
         this.voiceByteArray = IOUtils.toByteArray(new URL(downloadPath));
 
+        return getMessageFromByteArray();
+    }
+
+    private String getMessageFromByteArray() {
         HttpHeaders headers = new HttpHeaders();
 
         headers.add("Authorization", yandexService.getIAMToken());
